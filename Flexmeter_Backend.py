@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -23,6 +23,39 @@ tasks = [
         "actual_consumption": 2000.00,
         "uom": "Watt",
         "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_solar_energy.png",
+    },
+    {
+        "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+        "hw_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+        "price": 1.70,
+        "currency": "$",
+        "title": "Water Consumption",
+        "actual_consumption": 3000.00,
+        "uom": "m3",
+        "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_water.png",
+    },
+    {
+        "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+        "hw_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+        "price": 1.80,
+        "currency": "$",
+        "title": "Gas Consumption",
+        "actual_consumption": 4000.00,
+        "uom": "smc",
+        "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_gas.png",
+    }
+]
+
+tasks1 = [
+    {
+        "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+        "hw_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+        "price": 1.50,
+        "currency": "$",
+        "title": "Energy Consumption",
+        "actual_consumption": 1000.00,
+        "uom": "Watt",
+        "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_energy.png",
     },
     {
         "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
@@ -467,8 +500,42 @@ details_gc = [
 
 @app.route('/measurements', methods=['GET'])
 def get_tasks():
-    return jsonify({'tasks': tasks})
-
+    name = request.args.get("name")
+    if name == "admin":
+        return jsonify({'tasks': tasks})
+    if name == "edagroup":
+        return jsonify(tasks=[
+            {
+                "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+                "hw_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+                "price": 1.50,
+                "currency": "$",
+                "title": "Energy Consumption",
+                "actual_consumption": 1000.00,
+                "uom": "Watt",
+                "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_energy.png",
+            },
+            {
+                "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+                "hw_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+                "price": 1.70,
+                "currency": "$",
+                "title": "Water Consumption",
+                "actual_consumption": 3000.00,
+                "uom": "m3",
+                "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_water.png",
+            },
+            {
+                "user_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+                "hw_id": "8cbab44a-5ab0-4eef-8c7d-16ca7398f8ac",
+                "price": 1.80,
+                "currency": "$",
+                "title": "Gas Consumption",
+                "actual_consumption": 4000.00,
+                "uom": "smc",
+                "icon": "http://flexmeter.polito.it/wp-content/uploads/2016/07/icon_gas.png",
+            }
+        ])
 
 @app.route('/measurements/aggregate', methods=['GET'])
 def get_aggregate():
